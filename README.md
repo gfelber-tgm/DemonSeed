@@ -21,7 +21,7 @@ DemonSeed is a minimal malicious USB cable. Not to be confused with the O.MG Cab
 
 [**Original Video**](https://www.youtube.com/watch?v=QQ1p2tPWZbM&list=PLW5y1tjAOzI1xRXLCU1ROeZIuyVz7aF0e&index=2)
 
-This Protocol persist from my personal experiences with the Demon Seed it involves troubles i had and how i troubleshooted them. Also will it include some personal tips and tricks i used during my assembly.
+This Protocol persists from my personal experiences with the Demon Seed it involves troubles I had and how I troubleshot them. Also, will it include some personal tips and tricks I used during my assembly.
 
 ## <a name="materials"></a>Materials
 
@@ -50,7 +50,7 @@ This Protocol persist from my personal experiences with the Demon Seed it involv
 
 ### <a name="notes"></a>! Important side-notes !
 
-I did my DemonSeed assembly without flux. Also I broke my Pogo-jig PCB Traces and hardwired the pins to the pogos with cables. Also I used the in the box USB port, but removed the plastic part under the contacts. Furthermore I used the Debian Buster OS for all Programming related tasks. At last i want to note that this is expanding the original [setup]( https://o.mg.lol/setup/OMGDemonSeedEDU/) with personal experiences and tips on Troubleshooting and Problem solving. At the start of each section the original Video is linked. At last i did my software installer code tests with a Kali linux guest vm through Virtual Box (Virtual Box USB drivers are needed).
+I want to note that this is expanding the original [setup]( https://o.mg.lol/setup/OMGDemonSeedEDU/) with personal experiences and tips on Troubleshooting and Problem-solving. At the start of each section, the original Video is linked. I did my DemonSeed assembly without flux. Also, I broke my Pogo-jig PCB Traces and hardwired the pins to the pogos with cables. Also, I used the in the box USB port but removed the plastic part under the contacts. Furthermore, I used the Debian Buster OS for all Programming related tasks and for software installer code tests with a Kali Linux guest VM through Virtual Box (Virtual Box USB drivers are needed).
 
 ### <a name="pogo"></a>Pogo-jig
 
@@ -58,7 +58,7 @@ I did my DemonSeed assembly without flux. Also I broke my Pogo-jig PCB Traces an
 
 #### Theory
 
-The Pogo Jig is needed to connect the usbasp (The Module, which is used to setup the boot-loader) to the DemonSeed. In the following picture one can see the 6 pins on the DemonSeed Implant, which can be used for troubleshooting. More details on what each pad does in the [boot-loader](#boot) section.
+The Pogo Jig is needed to connect the usbasp (The Module, which is used to set up the boot-loader) to the DemonSeed. In the following picture, one can see the 6 pins on the DemonSeed Implant, which can be used for troubleshooting. More details on what each pad does in the [boot-loader](#boot) section.
 
 <img src="images/demonseed-schematic.jpg" alt="Pogo Jig Schematic" style="zoom: 67%;" />
 
@@ -66,13 +66,13 @@ The Pogo Jig is needed to connect the usbasp (The Module, which is used to setup
 
 **! Important!**
 
-put together your pogo jig before soldering it and check if your pogos can connect to the DemonSeed and that you don't soldered it backwards.
+put together your pogo jig before soldering it and check if your pogos can connect to the DemonSeed and that you don't solder it backwards.
 
 
 
-Because i broke my PCB traces i hardwired my pogo-jig with extra cables. 
+Because I broke my PCB traces I hardwired my pogo-jig with extra cables.  
 
-**Tip:** If u do this i advise on putting tin on your cables beforehand and then use this tin to connect the cables. following Picture is an example of this procedure.
+**Tip:** If u do this I advise on tinning your cables beforehand and then use this tin to connect the cables. the following picture is an example of this procedure.
 
 <img src="images/solder_cable.jpg" alt="solder_cable" style="zoom:50%;" />
 
@@ -136,7 +136,7 @@ The DemonSeed uses six pads for flashing flash memory and fuse bits
 
 **fuse bits**
 
-Fuse bits are used to activate certain "Abilities" of a Micro-controller. For example they are needed to mark the DemonSeed to use a boot-loader. For the DemonSeed we use 3 fuses:
+Fuse bits are used to activate certain "Abilities" of a Micro-controller. For example, they are needed to mark the DemonSeed to use a boot-loader. For the DemonSeed we use 3 fuses:
 
 + lfuse (low fuse)
 
@@ -144,7 +144,7 @@ Fuse bits are used to activate certain "Abilities" of a Micro-controller. For ex
 
 + hfuse (high fuse)
 
-  We use this fuse to enable Serial Programming and Data Downloading as well as the Brown out detector trigger level 1, which works as a safety feature, that monitors supply voltage
+  We use this fuse to enable Serial Programming and Data Downloading as well as the Brown-out-detector-trigger level 1, which works as a safety feature, that monitors the supply voltage
 
 + efuse (extended fuse)
 
@@ -152,17 +152,18 @@ Fuse bits are used to activate certain "Abilities" of a Micro-controller. For ex
 
 + lock (Locked Bits)
 
-  Locked Bits are bits that shouldn't be changed under normal circumstances, they for example can be used to give the RST pin extra functionality, but prevent your from reseting your microcontroller.
+  Locked Bits are bits that shouldn't be changed under normal circumstances, they, for example, can be used to give the RST pin extra functionality, but prevent you from resetting your microcontroller.
+  
 
 
 
 **avrdude**
 
-Avrdude is a tool that lets us flash microcontrollers and edits its fuse bits, we can select following parameters:
+Avrdude is a tool that lets us flash microcontrollers and edits its fuse bits, we can select the following parameters:
 
 + -p
 
-  defines a microcontroller type (DemonSeed is a attiny85)
+  defines a microcontroller type (DemonSeed is an attiny85)
 
 + -c
 
@@ -188,7 +189,7 @@ sudo apt-get install avrdude
 
 #### Programming
 
-In order to install the boot loader you need to flash it onto the DemonSeed. This code for this is in this Repo in the file *DemonSeed.hex*.
+In order to install the boot-loader, you need to flash it onto the DemonSeed. This code for this is in this Repo in the file *DemonSeed.hex*.
 
 
 
@@ -198,7 +199,7 @@ In order to install the boot loader you need to flash it onto the DemonSeed. Thi
 | ---------------------------------------------- | ------------------------------------------------ | -------------------------------------------------- |
 | ![usbasp_redirect](images/usbasp_redirect.jpg) | ![redirect_pogojig](images/redirect_pogojig.jpg) | ![pogojig_demonseed](images/pogojig_demonseed.jpg) |
 
-It is OK to run this command as many times as you want, you shouldn't be able to break it through this procedure. Once again i want to remind, that you need to be in the same directory as the *DemonSeed.hex* file.
+It is OK to run this command as many times as you want, you shouldn't be able to break it through this procedure. Once again I want to remind, that you need to be in the same directory as the *DemonSeed.hex* file.
 
 ```
 avrdude -c usbasp -p attiny85 -s -U flash:w:DemonSeed.hex:i -U lfuse:w:0xe1:m -U hfuse:w:0xdd:m -U efuse:w:0xfe:m
@@ -222,7 +223,7 @@ avrdude: error: could not find USB device with vid=0x16c0 pid=0x5dc vendor='www.
 avrdude done.  Thank you.
 ```
 
-Your usbasp wasn't found try unplugging and plugin it in again. also use `usb-devices | grep fischl`(Note: Works with the DemonSeed EDU kit usbasp) to check if its there.
+Your usbasp wasn't found try,unplugging and plugin it in again. Also, use `usb-devices | grep fischl`(Note: Works with the DemonSeed EDU kit usbasp) to check if its there.
 
 
 
@@ -239,7 +240,7 @@ avrdude: initialization failed, rc=-1
 avrdude done.  Thank you.
 ```
 
-Means you either aren't connected to the DemonSeed at all or your pins to pogos are wrongly wired. Just try again and if it still doesnt work check if pins and pogos are connected correct in the previous step is a schematic for that task [Pogo-Jig](#pogo).
+Means you either aren't connected to the DemonSeed at all or your pins to pogos are wrongly wired. Just try again and if it still doesn't work check if pins and pogos are connected correctly in the previous step is a schematic for that task [Pogo-Jig](#pogo).
 
 
 
@@ -252,7 +253,7 @@ avrdude: verification error, first mismatch at byte 0x0000
 avrdude: verification error; content mismatch
 ```
 
-This means one of your connections disconnected throughout the installation, just try it again. It could also mean there is not conductivity in one of your pins pogo connections. 
+This means one of your connections disconnected throughout the installation, just try it again. It could also mean there is no conductivity in one of your pins pogo connections. 
 
 
 
@@ -277,15 +278,15 @@ A USB Cables consist of 4 connectors which normally follow the following colour 
 
 **! Important !**
 
-Before soldering on the cables put your usb housing on the cable, also u should skip to [DemonSeed Programming](#dprogram) before soldering cables and putting on the housing, this improves troubleshooting by a lot.
-
-
-
-Like you can see in the picture i removed the bottom part of the plastic on the soldering side of the USB stick to make soldering easier, if you don't want to go through that hassle you can also buy a USB port that has soldering pins (example linked under Materials as Advisable).
+Before soldering on the cables put your USB housing on the cable, also u should skip to [DemonSeed Programming](#dprogram) before soldering cables and putting on the housing, this improves troubleshooting by a lot.
 
 
 
 **Cable soldering**
+
+Like you can see in the picture I removed the bottom part of the plastic on the soldering side of the USB stick to make soldering easier, if you don't want to go through that hassle you can also buy a USB port that has soldering pins (example linked under Materials as Advisable).
+
+
 
 Check beforehand, that you don't swap DC and GND also one should solder together both data-cables to prevent shorts.
 
@@ -364,7 +365,7 @@ sudo bash /usr/lib/arduino/install.sh
 
 #### Programming
 
-This following code sniplet setups your DemonSeed to print `so seedy...` in and 5 seconds interval.
+This following code snippet setups your DemonSeed to print `so seedy...` in and 5 seconds interval.
 
 ```c
  #include "DigiKeyboard.h"
@@ -432,7 +433,7 @@ sudo udevadm control --reload-rules
 
 
 
-If your devices isn't found there is probably a problem with conductivity. Either one of your solder connections doesn't conduct (check conductivity and solder the broken link) or you fried your DemonSeed (but that is the reason why you have two in your Kit). If you really want to know if your DemonSeed is fried or only one of the conductors got destroy you can try to flash the [boot-loader](#boot) again if it works one of your USB pins got fried, if not your DemonSeed got fried.
+If your device isn't found there is probably a problem with conductivity. Either one of your solder connections doesn't conduct (check conductivity and solder the broken link) or you fried your DemonSeed (but that is the reason why you have two in your Kit). If you really want to know if your DemonSeed is fried or only one of the conductors got destroy you can try to flash the [boot-loader](#boot) again if it works one of your USB pins got fried, if not your DemonSeed got fried.
 
 ## <a name="sources"></a>Sources
 
