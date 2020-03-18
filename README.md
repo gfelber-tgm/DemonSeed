@@ -104,19 +104,77 @@ I advise on testing the conductivity from the pins to the end of each pogo. For 
 
 **Connectors**
 
+The DemonSeed uses six pads for flashing flash memory and fuse bits
 
++ 5V: 
+
+  5V Direct Current, needed to deliver your DemonSeed with power
+
++ GND (Ground)
+
+  needed to complete the power circle
+
+**SPI Pads**
+
++ SCK (Serial Clock)
+
+  needed for bit transfer (every Cycle one transfer occurs)
+
++ MOSI (Master Output Slave Input)
+
+  Used to send bits from the Master (your Computer) to the Slave (DemonSeed)
+
++ MISO (Master Input Slave Output)
+
+  Used to send bits from the Slave (DemonSeed) to the Master (your Computer)
+
++ RST (Reset)
+
+  Used to monitor power fluctuations and to reset the microcontroller
 
 
 
 **fuse bits**
 
+Fuse bits are used to activate certain "Abilities" of a Micro-controller. For example they are needed to mark the DemonSeed to use a boot-loader. For the DemonSeed we use 3 fuses:
 
++ lfuse (low fuse)
+
+  This fuse is for time/clock related task, we use them to define the internal oscillator and the startup time of the DemonSeed
+
++ hfuse (high fuse)
+
+  We use this fuse to enable Serial Programming and Data Downloading as well as the Brown out detector trigger level 1, which works as a safety feature, that monitors supply voltage
+
++ efuse (extended fuse)
+
+  We use this fuse to enable SELFPRGEN (Self Programming) which lets us program the DemonSeed through the boot-loader
+
++ lock (Locked Bits)
+
+  Locked Bits are bits that shouldn't be changed under normal circumstances, they for example can be used to give the RST pin extra functionality, but prevent your from reseting your microcontroller.
 
 
 
 **avrdude**
 
+Avrdude is a tool that lets us flash microcontrollers and edits its fuse bits, we can select following parameters:
 
++ -p
+
+  defines a microcontroller type (DemonSeed is a attiny85)
+
++ -c
+
+  lets us define a programming adapter (we use the usbasp)
+
++ -s
+
+  Disables Safe Mode prompting, means if it detects a fuse that unintentionally changed it will recover it. This Activates this feature without asking us first.
+
++ -U
+
+  Writes to the microcontroller, we will write to flash (the bootloader), lfuse, hfuse and efuse
 
 
 
@@ -130,7 +188,7 @@ sudo apt-get install avrdude
 
 #### Programming
 
-In order to install the boot loader you need to flash it onto the DemonSeed. This code for this is in this Repo in the file DemonSeed.hex.
+In order to install the boot loader you need to flash it onto the DemonSeed. This code for this is in this Repo in the file *DemonSeed.hex*.
 
 
 
@@ -140,7 +198,7 @@ In order to install the boot loader you need to flash it onto the DemonSeed. Thi
 | ---------------------------------------------- | ------------------------------------------------ | -------------------------------------------------- |
 | ![usbasp_redirect](images/usbasp_redirect.jpg) | ![redirect_pogojig](images/redirect_pogojig.jpg) | ![pogojig_demonseed](images/pogojig_demonseed.jpg) |
 
-
+It is OK to run this command as many times as you want, you shouldn't be able to break it through this procedure. Once again i want to remind, that you need to be in the same directory as the *DemonSeed.hex* file.
 
 ```
 avrdude -c usbasp -p attiny85 -s -U flash:w:DemonSeed.hex:i -U lfuse:w:0xe1:m -U hfuse:w:0xdd:m -U efuse:w:0xfe:m
@@ -181,7 +239,7 @@ avrdude: initialization failed, rc=-1
 avrdude done.  Thank you.
 ```
 
-Means you either aren't connected to the DemonSeed at all or your pins to pogos are wrongly wired. Just try again and if it still doesnt work
+Means you either aren't connected to the DemonSeed at all or your pins to pogos are wrongly wired. Just try again and if it still doesnt work check if pins and pogos are connected correct in the previous step is a schematic for that task [Pogo-Jig](#pogo).
 
 
 
@@ -204,7 +262,16 @@ This means one of your connections disconnected throughout the installation, jus
 
 #### Theory
 
-**coming soon ...**
+**USB cables**
+
+A USB Cables consist of 4 connectors which normally follow the following colour schema:
+
++ red -> VDC (Delivers Direct Current 5V)
++ white -> Data -
++ green -> Data +
++ black -> Ground
+
+![USB schematic](http://i.imgur.com/eVqYEnSh.jpg)
 
 #### Soldering
 
@@ -215,6 +282,12 @@ Before soldering on the cables put your usb housing on the cable, also u should 
 
 
 Like you can see in the picture i removed the bottom part of the plastic on the soldering side of the USB stick to make soldering easier, if you don't want to go through that hassle you can also buy a USB port that has soldering pins (example linked under Materials as Advisable).
+
+
+
+**Cable soldering**
+
+Check beforehand, that you don't swap DC and GND also one should solder together both data-cables to prevent shorts.
 
 <img src="images/demonseed_solder.jpg" alt="demonseed_solder" style="zoom:50%;" />
 
@@ -246,7 +319,7 @@ It is advisable once again to check conductivity. Try if your DemonSeed pins and
 
 #### Theory
 
-**coming soon ...**
+Programming the DemonSeed is relatively simple. It is written in C and the Arduino IDE is used to detect and write to a Digispark (16.5Mhz) board. It also includes the library (Digispark) for using the DemonSeed for Keystroke Injections.
 
 #### Software Installation
 
@@ -290,6 +363,8 @@ sudo bash /usr/lib/arduino/install.sh
    
 
 #### Programming
+
+This following code sniplet setups your DemonSeed to print `so seedy...` in and 5 seconds interval.
 
 ```c
  #include "DigiKeyboard.h"
@@ -357,14 +432,21 @@ sudo udevadm control --reload-rules
 
 
 
-
+If your devices isn't found there is probably a problem with conductivity. Either one of your solder connections doesn't conduct (check conductivity and solder the broken link) or you fried your DemonSeed (but that is the reason why you have two in your Kit). If you really want to know if your DemonSeed is fried or only one of the conductors got destroy you can try to flash the [boot-loader](#boot) again if it works you should be fine, if not one of your DemonSeed USB pins got fried.
 
 ## <a name="sources"></a>Sources
 
 + [GitHub DemonSeed](https://github.com/O-MG/DemonSeed)
-+ [DemonSeed Setup][https://o.mg.lol/setup/OMGDemonSeedEDU/]
++ [DemonSeed Setup](https://o.mg.lol/setup/OMGDemonSeedEDU/)
 + [wikipedia](https://en.wikipedia.org/wiki/Main_Page)
   + [SPI](https://en.wikipedia.org/wiki/Serial_Peripheral_Interface)
+  + [USB](https://en.wikipedia.org/wiki/USB)
++ [RST Pin](https://www.quora.com/Why-do-microcontrollers-require-a-reset-pin?share=1)
 + [AVR Fuse Bits](https://hackaday.com/2012/08/30/avr-fuse-bits-explained/)
 + [Fuse Bits](https://embedderslife.wordpress.com/2012/08/20/fuse-bits-arent-that-scary/)
++ [attiny85 fuse bits](http://eleccelerator.com/fusecalc/fusecalc.php?chip=attiny85)
++ [CKSL](https://www.avrfreaks.net/forum/atmega16-clock-fuses-cksel)
++ [SUT0](https://www.instructables.com/id/Avr-fuse-basics-Running-an-avr-with-an-external-cl/)
++ [brown-out detection](https://scienceprog.com/microcontroller-brown-out-detection/)
++ [USB schematic](https://geekhack.org/index.php?topic=44924.0)
 
