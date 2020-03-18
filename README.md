@@ -432,7 +432,7 @@ sudo udevadm control --reload-rules
 
 
 
-If your devices isn't found there is probably a problem with conductivity. Either one of your solder connections doesn't conduct (check conductivity and solder the broken link) or you fried your DemonSeed (but that is the reason why you have two in your Kit). If you really want to know if your DemonSeed is fried or only one of the conductors got destroy you can try to flash the [boot-loader](#boot) again if it works you should be fine, if not one of your DemonSeed USB pins got fried.
+If your devices isn't found there is probably a problem with conductivity. Either one of your solder connections doesn't conduct (check conductivity and solder the broken link) or you fried your DemonSeed (but that is the reason why you have two in your Kit). If you really want to know if your DemonSeed is fried or only one of the conductors got destroy you can try to flash the [boot-loader](#boot) again if it works one of your USB pins got fried, if not your DemonSeed got fried.
 
 ## <a name="sources"></a>Sources
 
