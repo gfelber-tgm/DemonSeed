@@ -15,6 +15,7 @@ DemonSeed is a minimal malicious USB cable. Not to be confused with the O.MG Cab
   + [DemonSeed boot-loader](#boot)
   + [DemonSeed Soldering](#dsolder)
   + [DemonSeed Programming](#dprogram)
++ [Sources](#sources)
 
 ## <a name="intro"></a>Intro
 
@@ -67,7 +68,7 @@ Because i broke my PCB traces i hardwired my pogo-jig with extra cables.
 
 **Tip:** If u do this i advise on putting tin on your cables beforehand and then use this tin to connect the cables. following Picture is an example of this procedure.
 
-<img src="/home/gfelber/git/DemonSeed/images/solder_cable.jpg" alt="solder_cable" style="zoom:50%;" />
+<img src="images/solder_cable.jpg" alt="solder_cable" style="zoom:50%;" />
 
 | Front                                                | Back                                                         |
 | ---------------------------------------------------- | ------------------------------------------------------------ |
@@ -163,13 +164,44 @@ avrdude -c usbasp -p attiny85 -s -U flash:w:DemonSeed.hex:i -U lfuse:w:0xe1:m -U
 
 #### Software Installation
 
-[**Download Page**](https://www.arduino.cc/en/Main/Software)
+Arduino: [**Download Page**](https://www.arduino.cc/en/Main/Software)
 
-or
+*or*
+
+```bash
+wget https://downloads.arduino.cc/arduino-1.8.12-linux64.tar.xz -O /tmp/arduino.tar.xz
+tar -xf /tmp/arduino.tar.xz -C /tmp/
+sudo mv -f /tmp/arduino-1.8.12 /usr/lib/arduino
+sudo bash /usr/lib/arduino/install.sh
+```
 
 
 
-**coming soon ...**
+**Adding the right board**
+
+1. *start **Arduino IDE***
+
+2. File > Preferences > Additional Boards Manager URLs:
+
+3. *add http://digistump.com/package_digistump_index.json*
+
+   ![add_url](images/add_url.png)
+
+4. Tools > Board: > Boards Manager...
+
+5. *Type: **Contributed***
+
+6. *search digistump*
+
+7. *install **Digistump AVR Boards***
+
+   ![board_isntall](images/board_isntall.png)
+
+8. *Tools > Board: > Digispark (Default - 16mhz)*
+
+9. *Tools > Programmer: >  Micronucleus*
+
+   
 
 #### Programming
 
@@ -189,11 +221,24 @@ void loop() {
 }
 ```
 
+
+
 **Program Start Output**
 
-![program_start](/home/gfelber/git/DemonSeed/images/program_start.png)
+![program_start](images/program_start.png)
+
+
 
 **Success Output**
 
 <img src="images/program_success.png" alt="program_success"  />
+
+## <a name="sources"></a>Sources
+
++ [GitHub DemonSeed](https://github.com/O-MG/DemonSeed)
++ [DemonSeed Setup][https://o.mg.lol/setup/OMGDemonSeedEDU/]
++ [wikipedia](https://en.wikipedia.org/wiki/Main_Page)
+  + [SPI](https://en.wikipedia.org/wiki/Serial_Peripheral_Interface)
++ [AVR Fuse Bits](https://hackaday.com/2012/08/30/avr-fuse-bits-explained/)
++ [Fuse Bits](https://embedderslife.wordpress.com/2012/08/20/fuse-bits-arent-that-scary/)
 
