@@ -50,7 +50,7 @@ This Protocol persist from my personal experiences with the Demon Seed it involv
 
 ### <a name="notes"></a>! Important side-notes !
 
-I did my DemonSeed assembly without flux. Also I broke my Pogo-jig PCB Traces and hardwired the pins to the pogos with cables. Also I used the in the box USB port, but removed the plastic part under the contacts. Furthermore I used the Debian Buster OS for all Programming related tasks. At last i want to note that this is expanding the original [setup]( https://o.mg.lol/setup/OMGDemonSeedEDU/) with personal experiences and tips on Troubleshooting and Problem solving. At the start of each section the original Video is linked.
+I did my DemonSeed assembly without flux. Also I broke my Pogo-jig PCB Traces and hardwired the pins to the pogos with cables. Also I used the in the box USB port, but removed the plastic part under the contacts. Furthermore I used the Debian Buster OS for all Programming related tasks. At last i want to note that this is expanding the original [setup]( https://o.mg.lol/setup/OMGDemonSeedEDU/) with personal experiences and tips on Troubleshooting and Problem solving. At the start of each section the original Video is linked. At last i did my software installer code tests with a Kali linux guest vm through Virtual Box (Virtual Box USB drivers are needed).
 
 ### <a name="pogo"></a>Pogo-jig
 
@@ -58,11 +58,17 @@ I did my DemonSeed assembly without flux. Also I broke my Pogo-jig PCB Traces an
 
 #### Theory
 
-The Pogo Jig is needed to connect the usbasp (The Module, which is used to setup the boot-loader) to the DemonSeed. In the following picture one can see the 6 pins on the DemonSeed Implant, which can be used for troubleshooting. More details on what which pad does in the [boot-loader](#boot) section.
+The Pogo Jig is needed to connect the usbasp (The Module, which is used to setup the boot-loader) to the DemonSeed. In the following picture one can see the 6 pins on the DemonSeed Implant, which can be used for troubleshooting. More details on what each pad does in the [boot-loader](#boot) section.
 
 <img src="images/demonseed-schematic.jpg" alt="Pogo Jig Schematic" style="zoom: 67%;" />
 
 #### Soldering
+
+**! Important!**
+
+put together your pogo jig before soldering it and check if your pogos can connect to the DemonSeed and that you don't soldered it backwards.
+
+
 
 Because i broke my PCB traces i hardwired my pogo-jig with extra cables. 
 
@@ -96,7 +102,23 @@ I advise on testing the conductivity from the pins to the end of each pogo. For 
 
 #### Theory
 
-**coming soon ...**
+**Connectors**
+
+
+
+
+
+**fuse bits**
+
+
+
+
+
+**avrdude**
+
+
+
+
 
 #### Software Installation
 
@@ -107,6 +129,10 @@ sudo apt-get install avrdude
 
 
 #### Programming
+
+In order to install the boot loader you need to flash it onto the DemonSeed. This code for this is in this Repo in the file DemonSeed.hex.
+
+
 
 **Devices**
 
@@ -120,13 +146,57 @@ sudo apt-get install avrdude
 avrdude -c usbasp -p attiny85 -s -U flash:w:DemonSeed.hex:i -U lfuse:w:0xe1:m -U hfuse:w:0xdd:m -U efuse:w:0xfe:m
 ```
 
+
+
 **Output Successful**
 
 ![boot_output](images/boot_output.png)
 
+
+
 #### Troubleshooting
 
-**coming soon ...**
+**Output**
+
+```
+avrdude: error: could not find USB device with vid=0x16c0 pid=0x5dc vendor='www.fischl.de' product='USBasp'
+
+avrdude done.  Thank you.
+```
+
+Your usbasp wasn't found try unplugging and plugin it in again. also use `usb-devices | grep fischl`(Note: Works with the DemonSeed EDU kit usbasp) to check if its there.
+
+
+
+**Output**
+
+```
+avrdude: warning: cannot set sck period. please check for usbasp firmware update.
+avrdude: error: program enable: target doesn't answer. 1 
+avrdude: initialization failed, rc=-1
+         Double check connections and try again, or use -F to override
+         this check.
+
+
+avrdude done.  Thank you.
+```
+
+Means you either aren't connected to the DemonSeed at all or your pins to pogos are wrongly wired. Just try again and if it still doesnt work
+
+
+
+**Output**
+
+```
+avrdude: verifying ...
+avrdude: verification error, first mismatch at byte 0x0000
+         0x00 != 0x77
+avrdude: verification error; content mismatch
+```
+
+This means one of your connections disconnected throughout the installation, just try it again. It could also mean there is not conductivity in one of your pins pogo connections. 
+
+
 
 ### <a name="dsolder"></a>DemonSeed Soldering
 
@@ -138,9 +208,25 @@ avrdude -c usbasp -p attiny85 -s -U flash:w:DemonSeed.hex:i -U lfuse:w:0xe1:m -U
 
 #### Soldering
 
+**! Important !**
+
+Before soldering on the cables put your usb housing on the cable, also u should skip to [DemonSeed Programming](#dprogram) before soldering cables and putting on the housing, this improves troubleshooting by a lot.
+
+
+
+Like you can see in the picture i removed the bottom part of the plastic on the soldering side of the USB stick to make soldering easier, if you don't want to go through that hassle you can also buy a USB port that has soldering pins (example linked under Materials as Advisable).
+
 <img src="images/demonseed_solder.jpg" alt="demonseed_solder" style="zoom:50%;" />
 
+
+
 **Done**
+
+**! Important !**
+
+Once again go to  [DemonSeed Programming](#dprogram) and check if everything works before soldering the cable.
+
+
 
 | USB Head                                     | Cable                                                        |
 | -------------------------------------------- | ------------------------------------------------------------ |
@@ -150,7 +236,7 @@ avrdude -c usbasp -p attiny85 -s -U flash:w:DemonSeed.hex:i -U lfuse:w:0xe1:m -U
 
 #### Troubleshooting
 
-**coming soon ...**
+It is advisable once again to check conductivity. Try if your DemonSeed pins and USB pins conduct electricity and check that there are no shorts.
 
 
 
@@ -232,6 +318,46 @@ void loop() {
 **Success Output**
 
 <img src="images/program_success.png" alt="program_success"  />
+
+
+
+#### Troubleshooting
+
+If you cant compile your code there could be a problem with your rules. To resolve this add following entry.
+
+```bash
+vim /etc/udev/rules.d/49-micronucleus.rules
+```
+
+```
+# UDEV Rules for Micronucleus boards including the Digispark.
+# This file must be placed at:
+#
+# /etc/udev/rules.d/49-micronucleus.rules    (preferred location)
+#   or
+# /lib/udev/rules.d/49-micronucleus.rules    (req'd on some broken systems)
+#
+# After this file is copied, physically unplug and reconnect the board.
+#
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="16d0", ATTRS{idProduct}=="0753", MODE:="0666"
+KERNEL=="ttyACM*", ATTRS{idVendor}=="16d0", ATTRS{idProduct}=="0753", MODE:="0666", ENV{ID_MM_DEVICE_IGNORE}="1"
+#
+# If you share your linux system with other users, or just don't like the
+# idea of write permission for everybody, you can replace MODE:="0666" with
+# OWNER:="yourusername" to create the device owned by you, or with
+# GROUP:="somegroupname" and mange access using standard unix groups.
+
+```
+
+Now reload the rules and you should be good to go.
+
+```bash
+sudo udevadm control --reload-rules
+```
+
+
+
+
 
 ## <a name="sources"></a>Sources
 
