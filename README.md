@@ -3,7 +3,7 @@
 
 
 
-DemonSeed is a minimal malicious USB cable. Not to be confused with the O.MG Cable (https://o.mg.lol), which is a very differient piece of hardware that does a whole lot more.
+DemonSeed is a minimal malicious USB cable. Not to be confused with the O.MG Cable (https://o.mg.lol), which is a very different piece of hardware that does a whole lot more.
 
 ## Table of Contents
 
@@ -21,7 +21,7 @@ DemonSeed is a minimal malicious USB cable. Not to be confused with the O.MG Cab
 
 [**Original Video**](https://www.youtube.com/watch?v=QQ1p2tPWZbM&list=PLW5y1tjAOzI1xRXLCU1ROeZIuyVz7aF0e&index=2)
 
-This Protocol persists from my personal experiences with the Demon Seed it involves troubles I had and how I troubleshot them. Also, will it include some personal tips and tricks I used during my assembly.
+This Protocol persists from my personal experiences with the Demon Seed it involves troubles I had and how I troubleshooted them. Also, will it include some personal tips and tricks I used during my assembly.
 
 ## <a name="materials"></a>Materials
 
@@ -50,7 +50,8 @@ This Protocol persists from my personal experiences with the Demon Seed it invol
 
 ### <a name="notes"></a>! Important side-notes !
 
-I want to note that this is expanding the original [setup]( https://o.mg.lol/setup/OMGDemonSeedEDU/) with personal experiences and tips on Troubleshooting and Problem-solving. At the start of each section, the original Video is linked. I did my DemonSeed assembly without flux. Also, I broke my Pogo-jig PCB Traces and hardwired the pins to the pogos with cables. Also, I used the in the box USB port but removed the plastic part under the contacts. Furthermore, I used the Debian Buster OS for all Programming related tasks and for software installer code tests with a Kali Linux guest VM through Virtual Box (Virtual Box USB drivers are needed).
+I want to note that this is expanding the original [setup]( https://o.mg.lol/setup/OMGDemonSeedEDU/) with personal experiences and tips on Troubleshooting and Problem-solving. At the start of each section, the original Video is linked.
+Some Side-notes: I did my DemonSeed assembly without flux. Also, I broke my Pogo-jig PCB Traces and hardwired the pins to the pogos with cables. Also, I used the in the box USB port but removed the plastic part under the contacts. Furthermore, I used the Debian Buster OS for all Programming related tasks and for software installer code tests i used a Kali Linux guest VM through Virtual Box (Virtual Box USB drivers are needed).
 
 ### <a name="pogo"></a>Pogo-jig
 
@@ -66,13 +67,13 @@ The Pogo Jig is needed to connect the usbasp (The Module, which is used to set u
 
 **! Important!**
 
-put together your pogo jig before soldering it and check if your pogos can connect to the DemonSeed and that you don't solder it backwards.
+put together your pogo jig before soldering it and check if your pogos can connect to the DemonSeed and check that you don't solder it backwards.
 
 
 
-Because I broke my PCB traces I hardwired my pogo-jig with extra cables.  
+Since I broke my PCB traces, I hard-wired my pogo stencil with additional cables.
 
-**Tip:** If u do this I advise on tinning your cables beforehand and then use this tin to connect the cables. the following picture is an example of this procedure.
+**Tip:** If u also need to do this I advise on tinning your cables beforehand and then use this tin to connect the cables. the following picture is an example of tinning your cable.
 
 <img src="images/solder_cable.jpg" alt="solder_cable" style="zoom:50%;" />
 
@@ -113,8 +114,6 @@ The DemonSeed uses six pads for flashing flash memory and fuse bits
 + GND (Ground)
 
   needed to complete the power circle
-
-**SPI Pads**
 
 + SCK (Serial Clock)
 
@@ -189,7 +188,7 @@ sudo apt-get install avrdude
 
 #### Programming
 
-In order to install the boot-loader, you need to flash it onto the DemonSeed. This code for this is in this Repo in the file *DemonSeed.hex*.
+In order to install the boot-loader, you need to flash it onto the DemonSeed. The code for this is in the Repo in the file *DemonSeed.hex*.
 
 
 
@@ -253,7 +252,7 @@ avrdude: verification error, first mismatch at byte 0x0000
 avrdude: verification error; content mismatch
 ```
 
-This means one of your connections disconnected throughout the installation, just try it again. It could also mean there is no conductivity in one of your pins pogo connections. 
+This means one of your connections disconnected throughout the installation, just try it again. It could also mean there is no conductivity in one of your pin-pogo connections. 
 
 
 
@@ -321,6 +320,26 @@ It is advisable once again to check conductivity. Try if your DemonSeed pins and
 #### Theory
 
 Programming the DemonSeed is relatively simple. It is written in C and the Arduino IDE is used to detect and write to a Digispark (16.5Mhz) board. It also includes the library (Digispark) for using the DemonSeed for Keystroke Injections.
+
+
+
+Here is some extended theory to the DemonSeed.
+
+
+
+**ATTINY85-20MU Schematic**
+
+![attiny85-schematic](/home/gfelber/git/DemonSeed/images/attiny85-schematic.png)
+
+**DemonSeed Schematic** (from V1)
+
+![DemonSeed-schematic](https://raw.githubusercontent.com/O-MG/DemonSeed/master/schematic.png)
+
+
+
+
+
+
 
 #### Software Installation
 
@@ -442,6 +461,7 @@ If your device isn't found there is probably a problem with conductivity. Either
 + [wikipedia](https://en.wikipedia.org/wiki/Main_Page)
   + [SPI](https://en.wikipedia.org/wiki/Serial_Peripheral_Interface)
   + [USB](https://en.wikipedia.org/wiki/USB)
++ [SPI](https://deepbluembedded.com/spi-tutorial-with-pic-microcontrollers/)
 + [RST Pin](https://www.quora.com/Why-do-microcontrollers-require-a-reset-pin?share=1)
 + [AVR Fuse Bits](https://hackaday.com/2012/08/30/avr-fuse-bits-explained/)
 + [Fuse Bits](https://embedderslife.wordpress.com/2012/08/20/fuse-bits-arent-that-scary/)
@@ -450,4 +470,5 @@ If your device isn't found there is probably a problem with conductivity. Either
 + [SUT0](https://www.instructables.com/id/Avr-fuse-basics-Running-an-avr-with-an-external-cl/)
 + [brown-out detection](https://scienceprog.com/microcontroller-brown-out-detection/)
 + [USB schematic](https://geekhack.org/index.php?topic=44924.0)
++ [ATTiny85 Schematic](http://ww1.microchip.com/downloads/en/DeviceDoc/Atmel-2586-AVR-8-bit-Microcontroller-ATtiny25-ATtiny45-ATtiny85_Datasheet-Summary.pdf)
 
