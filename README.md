@@ -376,7 +376,7 @@ sudo bash /usr/lib/arduino/install.sh
 
    ![board_isntall](images/board_isntall.png)
 
-8. *Tools > Board: > Digispark (Default - 16mhz)*
+8. *Tools > Board: > Digispark (Default - 16.5Mhz)*
 
 9. *Tools > Programmer: >  Micronucleus*
 
